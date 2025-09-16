@@ -17,7 +17,7 @@ public class Livro {
 
     }
 
-    public boolean IsDisponivel(){
+    public boolean isDisponivel(){
         return disponivel; 
     }
     public void emprestar(){
