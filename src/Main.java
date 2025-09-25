@@ -1,12 +1,8 @@
-package view;
-
-import controller.BibliotecaController;
-import model.Livro;
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args){
-        BibliotecaController controller = new BibliotecaController();
+        Biblioteca biblioteca = new Biblioteca();
         Scanner sc = new Scanner(System.in);
         int opcao;
 
@@ -27,13 +23,13 @@ public class Main {
                     String titulo = sc.nextLine();
                     System.out.print("Autor: ");
                     String autor = sc.nextLine();
-                    controller.cadastrarLivro(titulo, autor);
+                    biblioteca.adicionarLivro(new Livro(titulo, autor));
                     System.out.println("Livro cadastrado!");
                     break;
 
                 case 2:
                     System.out.println("\nLista de livros:");
-                    for(Livro l : controller.listarLivros()){
+                    for(Livro l : biblioteca.getLivros()){
                         System.out.println("- " + l.getTitulo() + " (" + l.getAutor() + ") "
                                 + "[" + (l.isDisponivel() ? "Disponível" : "Emprestado") + "]");
                     }
@@ -42,7 +38,8 @@ public class Main {
                 case 3:
                     System.out.print("Título do livro para emprestar: ");
                     String emprestar = sc.nextLine();
-                    if(controller.emprestarLivro(emprestar)){
+                    Livro livroEmp = biblioteca.buscarLivro(emprestar);
+                    if(livroEmp != null && livroEmp.emprestar()){
                         System.out.println("Livro emprestado com sucesso!");
                     } else{
                         System.out.println("Livro não disponível ou não encontrado.");
@@ -52,7 +49,8 @@ public class Main {
                 case 4:
                     System.out.print("Título do livro para devolver: ");
                     String devolver = sc.nextLine();
-                    if(controller.devolverLivro(devolver)){
+                    Livro livroDev = biblioteca.buscarLivro(devolver);
+                    if(livroDev != null && livroDev.devolver()){
                         System.out.println("Livro devolvido com sucesso!");
                     } else{
                         System.out.println("Livro não encontrado ou já disponível.");
